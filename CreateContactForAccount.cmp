@@ -1,0 +1,81 @@
+<aura:component controller = "CreateRecordForAccountController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name = "recordId" type = "Id"/>
+    <aura:attribute name = "showTable" type = "Boolean" default = "false"/>
+    <aura:attribute name = "lname" type = "String"/>
+    <aura:attribute name = "email" type = "String"/>
+    <aura:attribute name = "isOpen" type = "Boolean" default = "false"/>
+    
+    <lightning:card title="Add Contact">
+        <aura:if isTrue = "{!v.isOpen}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">What is it?</h2>
+                        <div class = "slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p> From this lightning component you can create contacts which will be associated to this particular account only.</p>
+                        </div>
+                    </header>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        
+                    </footer>
+                    
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            
+        </aura:if>
+        <aura:if isTrue = "{!(!v.showTable)}">
+            <div style = "padding-top : 5px;" class = "slds-align_absolute-center">
+                <ui:button class="slds-button slds-button_success " label = "What is it?" press = "{!c.openModel}"/>           
+                <ui:button class="slds-button slds-button_destructive" press = "{!c.showTable}">ADD CONTACT</ui:button>
+            </div>
+        </aura:if>
+        <aura:if isTrue = "{!v.showTable}">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered" title = "Add Contact">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Opportunity Name">Contact Last Name</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col">
+                            <div class="slds-truncate" title="Close Date">Email</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="slds-hint-parent">
+                        
+                        <td data-label="Account Name">                
+                            <ui:inputText aura:id="lastName"
+                                          class="slds-input"
+                                          labelClass="slds-form-element__label"
+                                          value="{!v.lname}"
+                                          required="true"/>
+                        </td>
+                        <td data-label="Account Name">                
+                            <ui:inputText aura:id="Email"
+                                          class="slds-input"
+                                          labelClass="slds-form-element__label"
+                                          value="{!v.email}"
+                                          required="true"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div style = "padding-top : 5px;" class = "slds-align_absolute-center">
+                <ui:button class="slds-button slds-button_success" press = "{!c.doInit}">SAVE CONTACT</ui:button>
+                <ui:button class="slds-button slds-button_destructive" press = "{!c.Close}">CLOSE WINDOW</ui:button>
+            </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>
